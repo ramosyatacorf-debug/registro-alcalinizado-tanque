@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Alcalinizado en Tanque | ROMEX</title>
+  <meta name="description" content="Registro digital de Alcalinizado en Tanque - EXPORTADORA ROMEX S.A. Planta de Cacao Chincha. Código P-RAT-R-055" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- ACTION BAR -->
+    <header class="action-bar">
+      <div>
+        <h1>Registro de Alcalinizado en Tanque</h1>
+        <div class="meta">P-RAT-R-055 · Edición 6 · EXPORTADORA ROMEX S.A.</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-outline" id="btnClear">Limpiar</button>
+        <button type="button" class="btn btn-tonal" id="btnSave">Guardar</button>
+        <button type="button" class="btn btn-primary" id="btnPrint">Imprimir</button>
+      </div>
+    </header>
+
+    <div class="form-wrapper">
+      <form id="registroForm" autocomplete="off">
+
+        <!-- FORM HEADER -->
+        <div class="form-header">
+          <div class="company">
+            EXPORTADORA ROMEX S.A.<br />
+            PLANTA DE CACAO – CHINCHA
+          </div>
+          <div class="form-title">
+            <div class="dept">Producción</div>
+            <h2>REGISTRO DE ALCALINIZADO EN TANQUE</h2>
+          </div>
+          <div class="doc-meta">
+            <div><strong>Código:</strong> P-RAT-R-055</div>
+            <div><strong>Fecha de emisión:</strong> 13-01-2026</div>
+            <div><strong>Edición:</strong> 6</div>
+          </div>
+        </div>
+
+        <!-- IDENTITY -->
+        <div class="identity-row">
+          <div class="field">
+            <label for="fecha">Fecha</label>
+            <input type="date" id="fecha" name="fecha" required />
+          </div>
+          <div class="field">
+            <label for="turno">Turno</label>
+            <select id="turno" name="turno">
+              <option value="">— Seleccionar —</option>
+              <option value="1">Turno 1</option>
+              <option value="2">Turno 2</option>
+              <option value="3">Turno 3</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="operario">Operario</label>
+            <input type="text" id="operario" name="operario" placeholder="Nombre completo" />
+          </div>
+          <div class="edicion-badge">Edición 6 · 22</div>
+        </div>
+
+        <!-- ========== BLOQUE SUPERIOR ========== -->
+        <div class="grid-2">
+          <!-- INSUMOS -->
+          <section class="section">
+            <div class="section-header">INSUMOS</div>
+            <div class="section-body" style="padding:0">
+              <table class="data">
+                <thead>
+                  <tr>
+                    <th style="width:48%">Insumo</th>
+                    <th style="width:26%">Lote</th>
+                    <th style="width:26%">Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="label-cell">Torta Trozada Natural</td>
+                    <td><input type="text" name="lote_torta_natural" /></td>
+                    <td><input type="text" name="cant_torta_natural" /></td>
+                  </tr>
+                  <tr>
+                    <td class="label-cell">Torta Alcalina</td>
+                    <td><input type="text" name="lote_torta_alcalina" /></td>
+                    <td><input type="text" name="cant_torta_alcalina" /></td>
+                  </tr>
+                  <tr>
+                    <td class="label-cell">Carbonato de Potasio</td>
+                    <td><input type="text" name="lote_carbonato" /></td>
+                    <td><input type="text" name="cant_carbonato" /></td>
+                  </tr>
+                  <tr>
+                    <td class="label-cell">Agua Potable</td>
+                    <td><input type="text" name="lote_agua" /></td>
+                    <td><input type="text" name="cant_agua" /></td>
+                  </tr>
+                  <tr>
+                    <td class="label-cell">Cocoa Natural en Polvo</td>
+                    <td><input type="text" name="lote_cocoa_natural" /></td>
+                    <td><input type="text" name="cant_cocoa_natural" /></td>
+                  </tr>
+                  <tr>
+                    <td class="label-cell">Merma – Reproceso</td>
+                    <td><input type="text" name="lote_merma" /></td>
+                    <td><input type="text" name="cant_merma" /></td>
+                  </tr>
+                  <tr>
+                    <td class="label-cell">Cocoa Alcalina en Polvo</td>
+                    <td><input type="text" name="lote_cocoa_alcalina" /></td>
+                    <td><input type="text" name="cant_cocoa_alcalina" /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- CARGA + LOTE / CANTIDAD / STOCK -->
+          <section class="section">
+            <div class="section-header">HORA QUE SE INICIA A CARGAR LA TORTA Y/O COCOA A TANQUE</div>
+            <div class="section-body">
+              <table class="data">
+                <thead>
+                  <tr>
+                    <th>Hora Inicio</th>
+                    <th>Hora Final</th>
+                    <th>T° Chaqueta</th>
+                    <th>T° Producto</th>
+                    <th>pH</th>
+                    <th>% Humedad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="time" name="carga_hora_inicio" /></td>
+                    <td><input type="time" name="carga_hora_final" /></td>
+                    <td><input type="number" step="0.1" name="carga_t_chaqueta" placeholder="°C" /></td>
+                    <td><input type="number" step="0.1" name="carga_t_producto" placeholder="°C" /></td>
+                    <td><input type="number" step="0.01" name="carga_ph" /></td>
+                    <td><input type="number" step="0.1" name="carga_humedad" /></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="params-note">Parámetros: pH 6.80 a 7.40 &nbsp;/&nbsp; % humedad 1.5 a 4</div>
+
+              <table class="data" style="margin-top:10px">
+                <tr>
+                  <td class="label-cell" style="width:40%">Lote del Producto</td>
+                  <td><input type="text" name="lote_producto" /></td>
+                </tr>
+                <tr>
+                  <td class="label-cell">Cantidad Elaborada</td>
+                  <td><input type="text" name="cantidad_elaborada" /></td>
+                </tr>
+                <tr>
+                  <td class="label-cell">Stock</td>
+                  <td><input type="text" name="stock" /></td>
+                </tr>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- ========== SOLUCIÓN + SISTEMA VACÍO ========== -->
+        <div class="grid-2">
+          <section class="section">
+            <div class="section-header">HORA QUE SE INICIA A HECHAR SOLUCIÓN AL TANQUE</div>
+            <div class="section-body">
+              <table class="data">
+                <thead>
+                  <tr>
+                    <th>Hora Inicio</th>
+                    <th>Hora Final</th>
+                    <th>T° Chaqueta</th>
+                    <th>T° Producto</th>
+                    <th>Parámetro<br />50 a 120 °C</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="time" name="sol_hora_inicio" /></td>
+                    <td><input type="time" name="sol_hora_final" /></td>
+                    <td><input type="number" step="0.1" name="sol_t_chaqueta" /></td>
+                    <td><input type="number" step="0.1" name="sol_t_producto" /></td>
+                    <td><input type="text" name="sol_parametro" placeholder="°C" /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-header">HORA QUE SE PRENDE EL SISTEMA VACÍO</div>
+            <div class="section-body">
+              <table class="data">
+                <thead>
+                  <tr>
+                    <th>Hora Inicio</th>
+                    <th>BAR</th>
+                    <th>Hora Final</th>
+                    <th>BAR</th>
+                    <th class="shaded">N° Tanque Reactor</th>
+                    <th>Parámetro (−)<br />0.5 a (−) 0.8</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="time" name="vac_hora_inicio" /></td>
+                    <td><input type="number" step="0.01" name="vac_bar_inicio" /></td>
+                    <td><input type="time" name="vac_hora_final" /></td>
+                    <td><input type="number" step="0.01" name="vac_bar_final" /></td>
+                    <td class="shaded"><input type="text" name="n_tanque_reactor" /></td>
+                    <td><input type="text" name="vac_parametro" /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- ========== CONTROLES ========== -->
+        <div class="grid-2">
+          <section class="section">
+            <div class="section-header">CONTROLES DE TEMPERATURA</div>
+            <div class="section-body" style="padding:0">
+              <table class="data">
+                <thead>
+                  <tr>
+                    <th style="width:18%">Hora</th>
+                    <th style="width:28%">T° de Chaqueta</th>
+                    <th style="width:28%">T° Producto</th>
+                    <th style="width:26%">Presión</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="time" name="temp_hora_1" /></td>
+                    <td><input type="number" step="0.1" name="temp_chaqueta_1" /></td>
+                    <td><input type="number" step="0.1" name="temp_producto_1" /></td>
+                    <td><input type="text" name="temp_presion_1" /></td>
+                  </tr>
+                  <tr>
+                    <td><input type="time" name="temp_hora_2" /></td>
+                    <td><input type="number" step="0.1" name="temp_chaqueta_2" /></td>
+                    <td><input type="number" step="0.1" name="temp_producto_2" /></td>
+                    <td><input type="text" name="temp_presion_2" /></td>
+                  </tr>
+                  <tr>
+                    <td><input type="time" name="temp_hora_3" /></td>
+                    <td><input type="number" step="0.1" name="temp_chaqueta_3" /></td>
+                    <td><input type="number" step="0.1" name="temp_producto_3" /></td>
+                    <td><input type="text" name="temp_presion_3" /></td>
+                  </tr>
+                  <tr>
+                    <td><input type="time" name="temp_hora_4" /></td>
+                    <td><input type="number" step="0.1" name="temp_chaqueta_4" /></td>
+                    <td><input type="number" step="0.1" name="temp_producto_4" /></td>
+                    <td><input type="text" name="temp_presion_4" /></td>
+                  </tr>
+                  <tr>
+                    <td><input type="time" name="temp_hora_5" /></td>
+                    <td><input type="number" step="0.1" name="temp_chaqueta_5" /></td>
+                    <td><input type="number" step="0.1" name="temp_producto_5" /></td>
+                    <td><input type="text" name="temp_presion_5" /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="section" style="display:flex;flex-direction:column">
+            <div class="section-header">CONTROLES DE DESCARGA</div>
+            <div style="display:flex;flex:1">
+              <div class="section-body" style="flex:1;padding:0">
+                <table class="data">
+                  <thead>
+                    <tr>
+                      <th>Hora</th>
+                      <th>Tiempo Secado<br />al Vacío</th>
+                      <th>T° Chaqueta</th>
+                      <th>T° Producto</th>
+                      <th>Presión</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="time" name="desc_hora_1" /></td>
+                      <td><input type="text" name="desc_tiempo_1" /></td>
+                      <td><input type="number" step="0.1" name="desc_chaqueta_1" /></td>
+                      <td><input type="number" step="0.1" name="desc_producto_1" /></td>
+                      <td><input type="text" name="desc_presion_1" /></td>
+                    </tr>
+                    <tr>
+                      <td><input type="time" name="desc_hora_2" /></td>
+                      <td><input type="text" name="desc_tiempo_2" /></td>
+                      <td><input type="number" step="0.1" name="desc_chaqueta_2" /></td>
+                      <td><input type="number" step="0.1" name="desc_producto_2" /></td>
+                      <td><input type="text" name="desc_presion_2" /></td>
+                    </tr>
+                    <tr>
+                      <td><input type="time" name="desc_hora_3" /></td>
+                      <td><input type="text" name="desc_tiempo_3" /></td>
+                      <td><input type="number" step="0.1" name="desc_chaqueta_3" /></td>
+                      <td><input type="number" step="0.1" name="desc_producto_3" /></td>
+                      <td><input type="text" name="desc_presion_3" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="firmas">
+                <div class="firma-line">Gerente Producción</div>
+                <div class="firma-line">Aseguramiento de Calidad</div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- ========== CHECKLIST MÁQUINAS ========== -->
+        <section class="section">
+          <div class="section-header">CONTROL DE LIMPIEZA Y DESINFECCIÓN DE MÁQUINAS / EQUIPOS</div>
+          <div class="section-body">
+            <div class="grid-3">
+              <!-- Columna izquierda -->
+              <div>
+                <table class="data check-table">
+                  <thead>
+                    <tr>
+                      <th style="width:40%">Máquina</th>
+                      <th>Limpieza</th>
+                      <th>Desinfección</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="label-cell">Plataforma Tq 1</td>
+                      <td><input type="text" name="lim_plat1" /></td>
+                      <td><input type="text" name="des_plat1" /></td>
+                      <td><input type="text" name="est_plat1" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Plataforma Tq 2</td>
+                      <td><input type="text" name="lim_plat2" /></td>
+                      <td><input type="text" name="des_plat2" /></td>
+                      <td><input type="text" name="est_plat2" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Tanque descarga 1</td>
+                      <td><input type="text" name="lim_td1" /></td>
+                      <td><input type="text" name="des_td1" /></td>
+                      <td><input type="text" name="est_td1" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Tanque descarga 2</td>
+                      <td><input type="text" name="lim_td2" /></td>
+                      <td><input type="text" name="des_td2" /></td>
+                      <td><input type="text" name="est_td2" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Aguja</td>
+                      <td><input type="text" name="lim_aguja" placeholder="conforme" /></td>
+                      <td><input type="text" name="des_aguja" placeholder="no conforme" /></td>
+                      <td><input type="text" name="est_aguja" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Tamizador 2</td>
+                      <td><input type="text" name="lim_tamiz2" /></td>
+                      <td><input type="text" name="des_tamiz2" /></td>
+                      <td><input type="text" name="est_tamiz2" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Escobas</td>
+                      <td><input type="text" name="lim_escobas" /></td>
+                      <td><input type="text" name="des_escobas" /></td>
+                      <td><input type="text" name="est_escobas" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Guanes</td>
+                      <td><input type="text" name="lim_guanes" /></td>
+                      <td><input type="text" name="des_guanes" /></td>
+                      <td><input type="text" name="est_guanes" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Malla de techo 1</td>
+                      <td><input type="text" name="lim_malla1" /></td>
+                      <td><input type="text" name="des_malla1" /></td>
+                      <td><input type="text" name="est_malla1" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Imán 1</td>
+                      <td><input type="text" name="lim_iman1" /></td>
+                      <td><input type="text" name="des_iman1" /></td>
+                      <td><input type="text" name="est_iman1" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Imán 2</td>
+                      <td><input type="text" name="lim_iman2" /></td>
+                      <td><input type="text" name="des_iman2" /></td>
+                      <td><input type="text" name="est_iman2" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Columna central -->
+              <div>
+                <table class="data check-table">
+                  <thead>
+                    <tr>
+                      <th colspan="3">Máquina · Limpieza · Desinfección</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="label-cell" style="width:55%">Puertas</td>
+                      <td><input type="text" name="lim_puertas" /></td>
+                      <td><input type="text" name="des_puertas" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Parte externa tanque</td>
+                      <td><input type="text" name="lim_parte_ext" /></td>
+                      <td><input type="text" name="des_parte_ext" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Tableros de control</td>
+                      <td><input type="text" name="lim_tableros_c" /></td>
+                      <td><input type="text" name="des_tableros_c" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Balanza 2</td>
+                      <td><input type="text" name="lim_balanza2" /></td>
+                      <td><input type="text" name="des_balanza2" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">TQ Dosificador de Alcalinizado</td>
+                      <td><input type="text" name="lim_dosificador" /></td>
+                      <td><input type="text" name="des_dosificador" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Pisos</td>
+                      <td><input type="text" name="lim_pisos" /></td>
+                      <td><input type="text" name="des_pisos" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Elevadores</td>
+                      <td><input type="text" name="lim_elevadores" /></td>
+                      <td><input type="text" name="des_elevadores" /></td>
+                    </tr>
+                    <tr class="conforme-row">
+                      <td class="label-cell">CONFORME ✓</td>
+                      <td colspan="2" style="text-align:center">NO CONFORME ✕</td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Malla de techo 2</td>
+                      <td><input type="text" name="lim_malla2" /></td>
+                      <td><input type="text" name="des_malla2" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Malla de techo 3</td>
+                      <td><input type="text" name="lim_malla3" /></td>
+                      <td><input type="text" name="des_malla3" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Malla de techo 4</td>
+                      <td><input type="text" name="lim_malla4" /></td>
+                      <td><input type="text" name="des_malla4" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Columna derecha -->
+              <div>
+                <table class="data check-table">
+                  <thead>
+                    <tr>
+                      <th colspan="3">Máquina · Limpieza · Desinfección</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="label-cell" style="width:55%">Paredes</td>
+                      <td><input type="text" name="lim_paredes" /></td>
+                      <td><input type="text" name="des_paredes" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Tolva de alimentación de torta</td>
+                      <td><input type="text" name="lim_tolva" /></td>
+                      <td><input type="text" name="des_tolva" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Tableros de control</td>
+                      <td><input type="text" name="lim_tableros_d" /></td>
+                      <td><input type="text" name="des_tableros_d" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Equipo de vacío</td>
+                      <td><input type="text" name="lim_equipo_vac" /></td>
+                      <td><input type="text" name="des_equipo_vac" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Cucharón</td>
+                      <td><input type="text" name="lim_cucharon" /></td>
+                      <td><input type="text" name="des_cucharon" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Máquina de coser</td>
+                      <td><input type="text" name="lim_coser" /></td>
+                      <td><input type="text" name="des_coser" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Motores</td>
+                      <td><input type="text" name="lim_motores" /></td>
+                      <td><input type="text" name="des_motores" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Balanza 1</td>
+                      <td><input type="text" name="lim_balanza1" /></td>
+                      <td><input type="text" name="des_balanza1" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Mesa de trabajo</td>
+                      <td><input type="text" name="lim_mesa" /></td>
+                      <td><input type="text" name="des_mesa" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Recogedor</td>
+                      <td><input type="text" name="lim_recogedor" /></td>
+                      <td><input type="text" name="des_recogedor" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Cuchilla</td>
+                      <td><input type="text" name="lim_cuchilla" /></td>
+                      <td><input type="text" name="des_cuchilla" /></td>
+                    </tr>
+                    <tr>
+                      <td class="label-cell">Ventilador</td>
+                      <td><input type="text" name="lim_ventilador" /></td>
+                      <td><input type="text" name="des_ventilador" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="form-footer">
+          EXPORTADORA ROMEX S.A. — Planta de Cacao Chincha · Documento controlado · P-RAT-R-055
+        </div>
+      </form>
+    </div>
+
+    <!-- Status toast -->
+    <div id="status" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:10px 24px;border-radius:24px;font-size:0.85rem;opacity:0;pointer-events:none;transition:opacity 0.25s;z-index:200"></div>
+  </div>
+
+  <style>
+    #status.visible { opacity: 1; }
+  </style>
+  <script src="js/app.js"></script>
+</body>
+</html>
