@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registro de Alcalinizado en Tanque | ROMEX</title>
-  <meta name="description" content="Registro digital de Alcalinizado en Tanque - EXPORTADORA ROMEX S.A. Planta de Cacao Chincha. Código P-RAT-R-055" />
+  <meta name="description" content="Registro digital de Alcalinizado en Tanque - EXPORTADORA ROMEX S.A. Planta de Cacao Chincha. Código P-RAT-R-055. Orientado a operarios." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
   <div class="app">
-    <!-- ACTION BAR -->
+    <!-- BARRA DE ACCIONES (siempre visible) -->
     <header class="action-bar">
       <div>
         <h1>Registro de Alcalinizado en Tanque</h1>
-        <div class="meta">P-RAT-R-055 · Edición 6 · EXPORTADORA ROMEX S.A.</div>
+        <div class="meta">P-RAT-R-055 · Edición 6 · EXPORTADORA ROMEX S.A. · Uso de operarios</div>
       </div>
       <div class="actions">
         <button type="button" class="btn btn-outline" id="btnClear">Limpiar</button>
@@ -28,7 +28,7 @@
     <div class="form-wrapper">
       <form id="registroForm" autocomplete="off">
 
-        <!-- FORM HEADER -->
+        <!-- ENCABEZADO DEL DOCUMENTO -->
         <div class="form-header">
           <div class="company">
             EXPORTADORA ROMEX S.A.<br />
@@ -45,7 +45,8 @@
           </div>
         </div>
 
-        <!-- IDENTITY -->
+        <!-- 1. DATOS DEL OPERARIO -->
+        <div class="step-label"><span class="num">1</span> Datos del operario y turno</div>
         <div class="identity-row">
           <div class="field">
             <label for="fecha">Fecha</label>
@@ -61,13 +62,14 @@
             </select>
           </div>
           <div class="field">
-            <label for="operario">Operario</label>
-            <input type="text" id="operario" name="operario" placeholder="Nombre completo" />
+            <label for="operario">Operario (nombre completo)</label>
+            <input type="text" id="operario" name="operario" placeholder="Escriba su nombre" />
           </div>
           <div class="edicion-badge">Edición 6 · 22</div>
         </div>
 
-        <!-- ========== BLOQUE SUPERIOR ========== -->
+        <!-- 2. INSUMOS + CARGA -->
+        <div class="step-label"><span class="num">2</span> Insumos y carga al tanque</div>
         <div class="grid-2">
           <!-- INSUMOS -->
           <section class="section">
@@ -84,8 +86,8 @@
                 <tbody>
                   <tr>
                     <td class="label-cell">Torta Trozada Natural</td>
-                    <td><input type="text" name="lote_torta_natural" /></td>
-                    <td><input type="text" name="cant_torta_natural" /></td>
+                    <td><input type="text" name="lote_torta_natural" placeholder="Lote" /></td>
+                    <td><input type="text" name="cant_torta_natural" placeholder="Cant." /></td>
                   </tr>
                   <tr>
                     <td class="label-cell">Torta Alcalina</td>
@@ -122,7 +124,7 @@
             </div>
           </section>
 
-          <!-- CARGA + LOTE / CANTIDAD / STOCK -->
+          <!-- CARGA -->
           <section class="section">
             <div class="section-header">HORA QUE SE INICIA A CARGAR LA TORTA Y/O COCOA A TANQUE</div>
             <div class="section-body">
@@ -143,21 +145,21 @@
                     <td><input type="time" name="carga_hora_final" /></td>
                     <td><input type="number" step="0.1" name="carga_t_chaqueta" placeholder="°C" /></td>
                     <td><input type="number" step="0.1" name="carga_t_producto" placeholder="°C" /></td>
-                    <td><input type="number" step="0.01" name="carga_ph" /></td>
-                    <td><input type="number" step="0.1" name="carga_humedad" /></td>
+                    <td><input type="number" step="0.01" name="carga_ph" placeholder="6.80-7.40" title="Rango: 6.80 a 7.40" /></td>
+                    <td><input type="number" step="0.1" name="carga_humedad" placeholder="1.5-4" title="Rango: 1.5 a 4" /></td>
                   </tr>
                 </tbody>
               </table>
-              <div class="params-note">Parámetros: pH 6.80 a 7.40 &nbsp;/&nbsp; % humedad 1.5 a 4</div>
+              <div class="params-note">Parámetros oficiales → pH: <strong>6.80 – 7.40</strong> &nbsp;|&nbsp; % Humedad: <strong>1.5 – 4</strong></div>
 
-              <table class="data" style="margin-top:10px">
+              <table class="data" style="margin-top:12px">
                 <tr>
                   <td class="label-cell" style="width:40%">Lote del Producto</td>
-                  <td><input type="text" name="lote_producto" /></td>
+                  <td><input type="text" name="lote_producto" placeholder="N° de lote" /></td>
                 </tr>
                 <tr>
                   <td class="label-cell">Cantidad Elaborada</td>
-                  <td><input type="text" name="cantidad_elaborada" /></td>
+                  <td><input type="text" name="cantidad_elaborada" placeholder="kg / unidades" /></td>
                 </tr>
                 <tr>
                   <td class="label-cell">Stock</td>
@@ -168,7 +170,8 @@
           </section>
         </div>
 
-        <!-- ========== SOLUCIÓN + SISTEMA VACÍO ========== -->
+        <!-- 3. SOLUCIÓN + VACÍO -->
+        <div class="step-label"><span class="num">3</span> Solución y sistema de vacío</div>
         <div class="grid-2">
           <section class="section">
             <div class="section-header">HORA QUE SE INICIA A HECHAR SOLUCIÓN AL TANQUE</div>
@@ -189,10 +192,11 @@
                     <td><input type="time" name="sol_hora_final" /></td>
                     <td><input type="number" step="0.1" name="sol_t_chaqueta" /></td>
                     <td><input type="number" step="0.1" name="sol_t_producto" /></td>
-                    <td><input type="text" name="sol_parametro" placeholder="°C" /></td>
+                    <td><input type="number" step="0.1" name="sol_parametro" placeholder="50-120" title="Rango: 50 a 120 °C" /></td>
                   </tr>
                 </tbody>
               </table>
+              <div class="params-note">Temperatura de solución debe estar entre <strong>50 °C y 120 °C</strong></div>
             </div>
           </section>
 
@@ -216,16 +220,18 @@
                     <td><input type="number" step="0.01" name="vac_bar_inicio" /></td>
                     <td><input type="time" name="vac_hora_final" /></td>
                     <td><input type="number" step="0.01" name="vac_bar_final" /></td>
-                    <td class="shaded"><input type="text" name="n_tanque_reactor" /></td>
-                    <td><input type="text" name="vac_parametro" /></td>
+                    <td class="shaded"><input type="text" name="n_tanque_reactor" placeholder="N°" title="Número de tanque reactor" /></td>
+                    <td><input type="number" step="0.01" name="vac_parametro" placeholder="-0.5 a -0.8" title="Rango: -0.5 a -0.8" /></td>
                   </tr>
                 </tbody>
               </table>
+              <div class="params-note">Vacío debe estar entre <strong>−0.5 y −0.8</strong> BAR</div>
             </div>
           </section>
         </div>
 
-        <!-- ========== CONTROLES ========== -->
+        <!-- 4. CONTROLES -->
+        <div class="step-label"><span class="num">4</span> Controles de temperatura y descarga</div>
         <div class="grid-2">
           <section class="section">
             <div class="section-header">CONTROLES DE TEMPERATURA</div>
@@ -322,7 +328,8 @@
           </section>
         </div>
 
-        <!-- ========== CHECKLIST MÁQUINAS ========== -->
+        <!-- 5. LIMPIEZA Y DESINFECCIÓN -->
+        <div class="step-label"><span class="num">5</span> Control de limpieza y desinfección</div>
         <section class="section">
           <div class="section-header">CONTROL DE LIMPIEZA Y DESINFECCIÓN DE MÁQUINAS / EQUIPOS</div>
           <div class="section-body">
@@ -365,8 +372,8 @@
                     </tr>
                     <tr>
                       <td class="label-cell">Aguja</td>
-                      <td><input type="text" name="lim_aguja" placeholder="conforme" /></td>
-                      <td><input type="text" name="des_aguja" placeholder="no conforme" /></td>
+                      <td><input type="text" name="lim_aguja" /></td>
+                      <td><input type="text" name="des_aguja" /></td>
                       <td><input type="text" name="est_aguja" /></td>
                     </tr>
                     <tr>
@@ -455,7 +462,7 @@
                     </tr>
                     <tr class="conforme-row">
                       <td class="label-cell">CONFORME ✓</td>
-                      <td colspan="2" style="text-align:center">NO CONFORME ✕</td>
+                      <td colspan="2" style="text-align:center;font-weight:700">NO CONFORME ✕</td>
                     </tr>
                     <tr>
                       <td class="label-cell">Malla de techo 2</td>
@@ -553,18 +560,14 @@
         </section>
 
         <div class="form-footer">
-          EXPORTADORA ROMEX S.A. — Planta de Cacao Chincha · Documento controlado · P-RAT-R-055
+          EXPORTADORA ROMEX S.A. — Planta de Cacao Chincha · Documento controlado · P-RAT-R-055 · Uso de operarios de producción
         </div>
       </form>
     </div>
 
-    <!-- Status toast -->
-    <div id="status" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#323232;color:#fff;padding:10px 24px;border-radius:24px;font-size:0.85rem;opacity:0;pointer-events:none;transition:opacity 0.25s;z-index:200"></div>
+    <div id="status"></div>
   </div>
 
-  <style>
-    #status.visible { opacity: 1; }
-  </style>
   <script src="js/app.js"></script>
 </body>
 </html>
