@@ -1,53 +1,125 @@
 /**
- * Registro de Alcalinizado en Tanque – App logic
+ * Registro de Alcalinizado en Tanque – Lógica orientada a OPERARIOS
  * EXPORTADORA ROMEX S.A. | P-RAT-R-055
+ *
+ * Parámetros oficiales:
+ *   pH          : 6.80 – 7.40
+ *   % Humedad   : 1.5  – 4.0
+ *   Solución T° : 50   – 120 °C
+ *   Vacío       : -0.5 – -0.8
  */
 
 const STORAGE_KEY = 'romex_registro_alcalinizado_v1';
+
+// Rangos oficiales del formato
+const RANGES = {
+  carga_ph:        { min: 6.80, max: 7.40, label: 'pH' },
+  carga_humedad:   { min: 1.5,  max: 4.0,  label: '% Humedad' },
+  sol_parametro:   { min: 50,   max: 120,  label: 'T° Solución' },
+  vac_parametro:   { min: -0.8, max: -0.5, label: 'Vacío (BAR)' }
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('registroForm');
   const statusEl = document.getElementById('status');
 
-  // Load saved draft
   loadDraft();
+  setupValidation();
+  setupQuickStatusButtons();
 
-  // Auto-save on change (debounced)
+  // Auto-save (debounced)
   let saveTimer;
-  form.addEventListener('input', () => {
+  form.addEventListener('input', (e) => {
+    validateField(e.target);
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(() => {
-      saveDraft(true);
-    }, 600);
+    saveTimer = setTimeout(() => saveDraft(true), 700);
   });
 
-  // Buttons
+  form.addEventListener('change', (e) => validateField(e.target));
+
   document.getElementById('btnSave').addEventListener('click', () => saveDraft(false));
   document.getElementById('btnClear').addEventListener('click', clearForm);
-  document.getElementById('btnPrint').addEventListener('click', () => window.print());
+  document.getElementById('btnPrint').addEventListener('click', () => {
+    saveDraft(true);
+    window.print();
+  });
 
-  // Set today's date by default if empty
+  // Fecha de hoy por defecto
   const fechaInput = document.getElementById('fecha');
   if (fechaInput && !fechaInput.value) {
-    const today = new Date().toISOString().slice(0, 10);
-    fechaInput.value = today;
+    fechaInput.value = new Date().toISOString().slice(0, 10);
   }
 
+  // ========== VALIDACIÓN EN TIEMPO REAL ==========
+  function setupValidation() {
+    Object.keys(RANGES).forEach(name => {
+      const el = form.querySelector(`[name="${name}"]`);
+      if (el) validateField(el);
+    });
+  }
+
+  function validateField(el) {
+    if (!el || !el.name) return;
+    const range = RANGES[el.name];
+    if (!range) return;
+
+    const raw = el.value.trim().replace(',', '.');
+    if (raw === '') {
+      el.classList.remove('ok', 'out');
+      return;
+    }
+
+    const val = parseFloat(raw);
+    if (isNaN(val)) {
+      el.classList.remove('ok');
+      el.classList.add('out');
+      return;
+    }
+
+    // Para vacío los valores son negativos
+    const inRange = val >= range.min && val <= range.max;
+    el.classList.toggle('ok', inRange);
+    el.classList.toggle('out', !inRange);
+  }
+
+  // ========== BOTONES RÁPIDOS CONFORME / NO CONFORME ==========
+  function setupQuickStatusButtons() {
+    document.querySelectorAll('.quick-status').forEach(group => {
+      const targetName = group.dataset.target;
+      const input = form.querySelector(`[name="${targetName}"]`);
+      if (!input) return;
+
+      group.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const value = btn.dataset.value;
+          input.value = value;
+          group.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          // Disparar input para auto-save
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+      });
+
+      // Restaurar estado visual si ya hay valor
+      if (input.value) {
+        const activeBtn = group.querySelector(`button[data-value="${input.value}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+      }
+    });
+  }
+
+  // ========== GUARDAR / CARGAR / LIMPIAR ==========
   function saveDraft(silent = false) {
     const data = {};
-    const elements = form.querySelectorAll('input, select, textarea');
-    elements.forEach(el => {
+    form.querySelectorAll('input, select, textarea').forEach(el => {
       if (el.name) {
-        if (el.type === 'checkbox') {
-          data[el.name] = el.checked;
-        } else {
-          data[el.name] = el.value;
-        }
+        data[el.name] = el.type === 'checkbox' ? el.checked : el.value;
       }
     });
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
     if (!silent) {
-      showStatus('Borrador guardado correctamente');
+      showStatus('✓ Borrador guardado', 'ok');
     }
   }
 
@@ -59,33 +131,36 @@ document.addEventListener('DOMContentLoaded', () => {
       Object.keys(data).forEach(key => {
         const el = form.querySelector(`[name="${key}"]`);
         if (!el) return;
-        if (el.type === 'checkbox') {
-          el.checked = !!data[key];
-        } else {
-          el.value = data[key];
-        }
+        if (el.type === 'checkbox') el.checked = !!data[key];
+        else el.value = data[key];
       });
-      showStatus('Borrador restaurado', 2500);
+      // Re-validar y restaurar botones rápidos
+      setupValidation();
+      setupQuickStatusButtons();
+      showStatus('Borrador restaurado', 'ok', 2200);
     } catch (e) {
       console.warn('No se pudo cargar el borrador', e);
     }
   }
 
   function clearForm() {
-    if (!confirm('¿Seguro que deseas limpiar todo el formulario? Esta acción no se puede deshacer.')) return;
+    if (!confirm('¿Seguro que deseas limpiar todo el formulario?\nSe perderán los datos no guardados.')) return;
     form.reset();
     localStorage.removeItem(STORAGE_KEY);
+    form.querySelectorAll('input').forEach(el => el.classList.remove('ok', 'out'));
+    document.querySelectorAll('.quick-status button').forEach(b => b.classList.remove('active'));
     const fechaInput = document.getElementById('fecha');
-    if (fechaInput) {
-      fechaInput.value = new Date().toISOString().slice(0, 10);
-    }
+    if (fechaInput) fechaInput.value = new Date().toISOString().slice(0, 10);
     showStatus('Formulario limpio');
   }
 
-  function showStatus(msg, duration = 2200) {
+  function showStatus(msg, type = '', duration = 2400) {
     if (!statusEl) return;
     statusEl.textContent = msg;
-    statusEl.classList.add('visible');
-    setTimeout(() => statusEl.classList.remove('visible'), duration);
+    statusEl.className = 'visible' + (type ? ' ' + type : '');
+    clearTimeout(statusEl._timer);
+    statusEl._timer = setTimeout(() => {
+      statusEl.className = '';
+    }, duration);
   }
 });
