@@ -18,37 +18,22 @@ const RANGES = {
   vac_parametro: { min: -0.8, max: -0.5, label: 'Vacío (BAR)' }
 };
 
-// Campos críticos para la barra de progreso
-const CRITICAL_FIELDS = [
-  'fecha', 'turno', 'operario',
-  'carga_ph', 'carga_humedad',
-  'n_tanque_reactor',
-  'lote_producto'
-];
-
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('registroForm');
   const statusEl = document.getElementById('status');
 
   loadDraft();
   setupValidation();
-  setupNowButtons();
-  setupEnterNavigation();
-  updateProgress();
 
-  // Auto-save + progress
+  // Auto-save (debounced)
   let saveTimer;
   form.addEventListener('input', (e) => {
     validateField(e.target);
-    updateProgress();
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => saveDraft(true), 700);
   });
 
-  form.addEventListener('change', (e) => {
-    validateField(e.target);
-    updateProgress();
-  });
+  form.addEventListener('change', (e) => validateField(e.target));
 
   document.getElementById('btnSave').addEventListener('click', () => saveDraft(false));
   document.getElementById('btnClear').addEventListener('click', clearForm);
@@ -61,68 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const fechaInput = document.getElementById('fecha');
   if (fechaInput && !fechaInput.value) {
     fechaInput.value = new Date().toISOString().slice(0, 10);
-  }
-
-  // ========== BOTONES "AHORA" PARA CAMPOS DE HORA ==========
-  function setupNowButtons() {
-    document.querySelectorAll('input[type="time"]').forEach(input => {
-      // Evitar duplicar el botón
-      if (input.parentElement.querySelector('.btn-now')) return;
-
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'btn-now';
-      btn.textContent = 'Ahora';
-      btn.title = 'Poner la hora actual';
-      btn.addEventListener('click', () => {
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2, '0');
-        const mm = String(now.getMinutes()).padStart(2, '0');
-        input.value = `${hh}:${mm}`;
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-        input.focus();
-      });
-
-      // Envolver input + botón
-      const wrap = document.createElement('div');
-      wrap.className = 'time-wrap';
-      input.parentNode.insertBefore(wrap, input);
-      wrap.appendChild(input);
-      wrap.appendChild(btn);
-    });
-  }
-
-  // ========== NAVEGACIÓN CON ENTER ==========
-  function setupEnterNavigation() {
-    const fields = Array.from(form.querySelectorAll('input, select'));
-    fields.forEach((el, idx) => {
-      el.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          const next = fields[idx + 1];
-          if (next) next.focus();
-        }
-      });
-    });
-  }
-
-  // ========== BARRA DE PROGRESO ==========
-  function updateProgress() {
-    const bar = document.getElementById('progressBar');
-    const label = document.getElementById('progressLabel');
-    if (!bar || !label) return;
-
-    let filled = 0;
-    CRITICAL_FIELDS.forEach(name => {
-      const el = form.querySelector(`[name="${name}"]`);
-      if (el && el.value && el.value.trim() !== '') filled++;
-    });
-
-    const pct = Math.round((filled / CRITICAL_FIELDS.length) * 100);
-    bar.style.width = pct + '%';
-    label.textContent = `${filled}/${CRITICAL_FIELDS.length} datos clave`;
-
-    bar.classList.toggle('complete', pct === 100);
   }
 
   // ========== VALIDACIÓN EN TIEMPO REAL ==========
@@ -183,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         else el.value = data[key];
       });
       setupValidation();
-      updateProgress();
       showStatus('Borrador restaurado', 'ok', 2200);
     } catch (e) {
       console.warn('No se pudo cargar el borrador', e);
@@ -197,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
     form.querySelectorAll('input').forEach(el => el.classList.remove('ok', 'out'));
     const fechaInput = document.getElementById('fecha');
     if (fechaInput) fechaInput.value = new Date().toISOString().slice(0, 10);
-    updateProgress();
     showStatus('Formulario limpio');
   }
 
