@@ -19,6 +19,10 @@
         <div class="meta">P-RAT-R-055 · Edición 6 · EXPORTADORA ROMEX S.A. · Uso de operarios</div>
       </div>
       <div class="actions">
+        <div class="progress-wrap">
+          <span id="progressLabel">0/7 datos clave</span>
+          <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+        </div>
         <button type="button" class="btn btn-outline" id="btnClear">Limpiar</button>
         <button type="button" class="btn btn-tonal" id="btnSave">Guardar</button>
         <button type="button" class="btn btn-primary" id="btnPrint">Imprimir</button>
@@ -71,7 +75,6 @@
         <!-- 2. INSUMOS + CARGA -->
         <div class="step-label"><span class="num">2</span> Insumos y carga al tanque</div>
         <div class="grid-2">
-          <!-- INSUMOS -->
           <section class="section">
             <div class="section-header">INSUMOS</div>
             <div class="section-body" style="padding:0">
@@ -124,7 +127,6 @@
             </div>
           </section>
 
-          <!-- CARGA -->
           <section class="section">
             <div class="section-header">HORA QUE SE INICIA A CARGAR LA TORTA Y/O COCOA A TANQUE</div>
             <div class="section-body">
@@ -334,7 +336,6 @@
           <div class="section-header">CONTROL DE LIMPIEZA Y DESINFECCIÓN DE MÁQUINAS / EQUIPOS</div>
           <div class="section-body">
             <div class="grid-3">
-              <!-- Columna izquierda -->
               <div>
                 <table class="data check-table">
                   <thead>
@@ -346,212 +347,60 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="label-cell">Plataforma Tq 1</td>
-                      <td><input type="text" name="lim_plat1" /></td>
-                      <td><input type="text" name="des_plat1" /></td>
-                      <td><input type="text" name="est_plat1" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Plataforma Tq 2</td>
-                      <td><input type="text" name="lim_plat2" /></td>
-                      <td><input type="text" name="des_plat2" /></td>
-                      <td><input type="text" name="est_plat2" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Tanque descarga 1</td>
-                      <td><input type="text" name="lim_td1" /></td>
-                      <td><input type="text" name="des_td1" /></td>
-                      <td><input type="text" name="est_td1" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Tanque descarga 2</td>
-                      <td><input type="text" name="lim_td2" /></td>
-                      <td><input type="text" name="des_td2" /></td>
-                      <td><input type="text" name="est_td2" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Aguja</td>
-                      <td><input type="text" name="lim_aguja" /></td>
-                      <td><input type="text" name="des_aguja" /></td>
-                      <td><input type="text" name="est_aguja" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Tamizador 2</td>
-                      <td><input type="text" name="lim_tamiz2" /></td>
-                      <td><input type="text" name="des_tamiz2" /></td>
-                      <td><input type="text" name="est_tamiz2" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Escobas</td>
-                      <td><input type="text" name="lim_escobas" /></td>
-                      <td><input type="text" name="des_escobas" /></td>
-                      <td><input type="text" name="est_escobas" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Guanes</td>
-                      <td><input type="text" name="lim_guanes" /></td>
-                      <td><input type="text" name="des_guanes" /></td>
-                      <td><input type="text" name="est_guanes" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Malla de techo 1</td>
-                      <td><input type="text" name="lim_malla1" /></td>
-                      <td><input type="text" name="des_malla1" /></td>
-                      <td><input type="text" name="est_malla1" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Imán 1</td>
-                      <td><input type="text" name="lim_iman1" /></td>
-                      <td><input type="text" name="des_iman1" /></td>
-                      <td><input type="text" name="est_iman1" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Imán 2</td>
-                      <td><input type="text" name="lim_iman2" /></td>
-                      <td><input type="text" name="des_iman2" /></td>
-                      <td><input type="text" name="est_iman2" /></td>
-                    </tr>
+                    <tr><td class="label-cell">Plataforma Tq 1</td><td><input type="text" name="lim_plat1" /></td><td><input type="text" name="des_plat1" /></td><td><input type="text" name="est_plat1" /></td></tr>
+                    <tr><td class="label-cell">Plataforma Tq 2</td><td><input type="text" name="lim_plat2" /></td><td><input type="text" name="des_plat2" /></td><td><input type="text" name="est_plat2" /></td></tr>
+                    <tr><td class="label-cell">Tanque descarga 1</td><td><input type="text" name="lim_td1" /></td><td><input type="text" name="des_td1" /></td><td><input type="text" name="est_td1" /></td></tr>
+                    <tr><td class="label-cell">Tanque descarga 2</td><td><input type="text" name="lim_td2" /></td><td><input type="text" name="des_td2" /></td><td><input type="text" name="est_td2" /></td></tr>
+                    <tr><td class="label-cell">Aguja</td><td><input type="text" name="lim_aguja" /></td><td><input type="text" name="des_aguja" /></td><td><input type="text" name="est_aguja" /></td></tr>
+                    <tr><td class="label-cell">Tamizador 2</td><td><input type="text" name="lim_tamiz2" /></td><td><input type="text" name="des_tamiz2" /></td><td><input type="text" name="est_tamiz2" /></td></tr>
+                    <tr><td class="label-cell">Escobas</td><td><input type="text" name="lim_escobas" /></td><td><input type="text" name="des_escobas" /></td><td><input type="text" name="est_escobas" /></td></tr>
+                    <tr><td class="label-cell">Guanes</td><td><input type="text" name="lim_guanes" /></td><td><input type="text" name="des_guanes" /></td><td><input type="text" name="est_guanes" /></td></tr>
+                    <tr><td class="label-cell">Malla de techo 1</td><td><input type="text" name="lim_malla1" /></td><td><input type="text" name="des_malla1" /></td><td><input type="text" name="est_malla1" /></td></tr>
+                    <tr><td class="label-cell">Imán 1</td><td><input type="text" name="lim_iman1" /></td><td><input type="text" name="des_iman1" /></td><td><input type="text" name="est_iman1" /></td></tr>
+                    <tr><td class="label-cell">Imán 2</td><td><input type="text" name="lim_iman2" /></td><td><input type="text" name="des_iman2" /></td><td><input type="text" name="est_iman2" /></td></tr>
                   </tbody>
                 </table>
               </div>
 
-              <!-- Columna central -->
               <div>
                 <table class="data check-table">
                   <thead>
-                    <tr>
-                      <th colspan="3">Máquina · Limpieza · Desinfección</th>
-                    </tr>
+                    <tr><th colspan="3">Máquina · Limpieza · Desinfección</th></tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="label-cell" style="width:55%">Puertas</td>
-                      <td><input type="text" name="lim_puertas" /></td>
-                      <td><input type="text" name="des_puertas" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Parte externa tanque</td>
-                      <td><input type="text" name="lim_parte_ext" /></td>
-                      <td><input type="text" name="des_parte_ext" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Tableros de control</td>
-                      <td><input type="text" name="lim_tableros_c" /></td>
-                      <td><input type="text" name="des_tableros_c" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Balanza 2</td>
-                      <td><input type="text" name="lim_balanza2" /></td>
-                      <td><input type="text" name="des_balanza2" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">TQ Dosificador de Alcalinizado</td>
-                      <td><input type="text" name="lim_dosificador" /></td>
-                      <td><input type="text" name="des_dosificador" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Pisos</td>
-                      <td><input type="text" name="lim_pisos" /></td>
-                      <td><input type="text" name="des_pisos" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Elevadores</td>
-                      <td><input type="text" name="lim_elevadores" /></td>
-                      <td><input type="text" name="des_elevadores" /></td>
-                    </tr>
-                    <tr class="conforme-row">
-                      <td class="label-cell">CONFORME ✓</td>
-                      <td colspan="2" style="text-align:center;font-weight:700">NO CONFORME ✕</td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Malla de techo 2</td>
-                      <td><input type="text" name="lim_malla2" /></td>
-                      <td><input type="text" name="des_malla2" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Malla de techo 3</td>
-                      <td><input type="text" name="lim_malla3" /></td>
-                      <td><input type="text" name="des_malla3" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Malla de techo 4</td>
-                      <td><input type="text" name="lim_malla4" /></td>
-                      <td><input type="text" name="des_malla4" /></td>
-                    </tr>
+                    <tr><td class="label-cell" style="width:55%">Puertas</td><td><input type="text" name="lim_puertas" /></td><td><input type="text" name="des_puertas" /></td></tr>
+                    <tr><td class="label-cell">Parte externa tanque</td><td><input type="text" name="lim_parte_ext" /></td><td><input type="text" name="des_parte_ext" /></td></tr>
+                    <tr><td class="label-cell">Tableros de control</td><td><input type="text" name="lim_tableros_c" /></td><td><input type="text" name="des_tableros_c" /></td></tr>
+                    <tr><td class="label-cell">Balanza 2</td><td><input type="text" name="lim_balanza2" /></td><td><input type="text" name="des_balanza2" /></td></tr>
+                    <tr><td class="label-cell">TQ Dosificador de Alcalinizado</td><td><input type="text" name="lim_dosificador" /></td><td><input type="text" name="des_dosificador" /></td></tr>
+                    <tr><td class="label-cell">Pisos</td><td><input type="text" name="lim_pisos" /></td><td><input type="text" name="des_pisos" /></td></tr>
+                    <tr><td class="label-cell">Elevadores</td><td><input type="text" name="lim_elevadores" /></td><td><input type="text" name="des_elevadores" /></td></tr>
+                    <tr class="conforme-row"><td class="label-cell">CONFORME ✓</td><td colspan="2" style="text-align:center;font-weight:700">NO CONFORME ✕</td></tr>
+                    <tr><td class="label-cell">Malla de techo 2</td><td><input type="text" name="lim_malla2" /></td><td><input type="text" name="des_malla2" /></td></tr>
+                    <tr><td class="label-cell">Malla de techo 3</td><td><input type="text" name="lim_malla3" /></td><td><input type="text" name="des_malla3" /></td></tr>
+                    <tr><td class="label-cell">Malla de techo 4</td><td><input type="text" name="lim_malla4" /></td><td><input type="text" name="des_malla4" /></td></tr>
                   </tbody>
                 </table>
               </div>
 
-              <!-- Columna derecha -->
               <div>
                 <table class="data check-table">
                   <thead>
-                    <tr>
-                      <th colspan="3">Máquina · Limpieza · Desinfección</th>
-                    </tr>
+                    <tr><th colspan="3">Máquina · Limpieza · Desinfección</th></tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="label-cell" style="width:55%">Paredes</td>
-                      <td><input type="text" name="lim_paredes" /></td>
-                      <td><input type="text" name="des_paredes" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Tolva de alimentación de torta</td>
-                      <td><input type="text" name="lim_tolva" /></td>
-                      <td><input type="text" name="des_tolva" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Tableros de control</td>
-                      <td><input type="text" name="lim_tableros_d" /></td>
-                      <td><input type="text" name="des_tableros_d" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Equipo de vacío</td>
-                      <td><input type="text" name="lim_equipo_vac" /></td>
-                      <td><input type="text" name="des_equipo_vac" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Cucharón</td>
-                      <td><input type="text" name="lim_cucharon" /></td>
-                      <td><input type="text" name="des_cucharon" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Máquina de coser</td>
-                      <td><input type="text" name="lim_coser" /></td>
-                      <td><input type="text" name="des_coser" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Motores</td>
-                      <td><input type="text" name="lim_motores" /></td>
-                      <td><input type="text" name="des_motores" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Balanza 1</td>
-                      <td><input type="text" name="lim_balanza1" /></td>
-                      <td><input type="text" name="des_balanza1" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Mesa de trabajo</td>
-                      <td><input type="text" name="lim_mesa" /></td>
-                      <td><input type="text" name="des_mesa" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Recogedor</td>
-                      <td><input type="text" name="lim_recogedor" /></td>
-                      <td><input type="text" name="des_recogedor" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Cuchilla</td>
-                      <td><input type="text" name="lim_cuchilla" /></td>
-                      <td><input type="text" name="des_cuchilla" /></td>
-                    </tr>
-                    <tr>
-                      <td class="label-cell">Ventilador</td>
-                      <td><input type="text" name="lim_ventilador" /></td>
-                      <td><input type="text" name="des_ventilador" /></td>
-                    </tr>
+                    <tr><td class="label-cell" style="width:55%">Paredes</td><td><input type="text" name="lim_paredes" /></td><td><input type="text" name="des_paredes" /></td></tr>
+                    <tr><td class="label-cell">Tolva de alimentación de torta</td><td><input type="text" name="lim_tolva" /></td><td><input type="text" name="des_tolva" /></td></tr>
+                    <tr><td class="label-cell">Tableros de control</td><td><input type="text" name="lim_tableros_d" /></td><td><input type="text" name="des_tableros_d" /></td></tr>
+                    <tr><td class="label-cell">Equipo de vacío</td><td><input type="text" name="lim_equipo_vac" /></td><td><input type="text" name="des_equipo_vac" /></td></tr>
+                    <tr><td class="label-cell">Cucharón</td><td><input type="text" name="lim_cucharon" /></td><td><input type="text" name="des_cucharon" /></td></tr>
+                    <tr><td class="label-cell">Máquina de coser</td><td><input type="text" name="lim_coser" /></td><td><input type="text" name="des_coser" /></td></tr>
+                    <tr><td class="label-cell">Motores</td><td><input type="text" name="lim_motores" /></td><td><input type="text" name="des_motores" /></td></tr>
+                    <tr><td class="label-cell">Balanza 1</td><td><input type="text" name="lim_balanza1" /></td><td><input type="text" name="des_balanza1" /></td></tr>
+                    <tr><td class="label-cell">Mesa de trabajo</td><td><input type="text" name="lim_mesa" /></td><td><input type="text" name="des_mesa" /></td></tr>
+                    <tr><td class="label-cell">Recogedor</td><td><input type="text" name="lim_recogedor" /></td><td><input type="text" name="des_recogedor" /></td></tr>
+                    <tr><td class="label-cell">Cuchilla</td><td><input type="text" name="lim_cuchilla" /></td><td><input type="text" name="des_cuchilla" /></td></tr>
+                    <tr><td class="label-cell">Ventilador</td><td><input type="text" name="lim_ventilador" /></td><td><input type="text" name="des_ventilador" /></td></tr>
                   </tbody>
                 </table>
               </div>
