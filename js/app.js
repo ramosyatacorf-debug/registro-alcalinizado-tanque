@@ -11,13 +11,20 @@
 
 const STORAGE_KEY = 'romex_registro_alcalinizado_v1';
 
-// Rangos oficiales del formato
 const RANGES = {
-  carga_ph:        { min: 6.80, max: 7.40, label: 'pH' },
-  carga_humedad:   { min: 1.5,  max: 4.0,  label: '% Humedad' },
-  sol_parametro:   { min: 50,   max: 120,  label: 'T° Solución' },
-  vac_parametro:   { min: -0.8, max: -0.5, label: 'Vacío (BAR)' }
+  carga_ph:      { min: 6.80, max: 7.40, label: 'pH' },
+  carga_humedad: { min: 1.5,  max: 4.0,  label: '% Humedad' },
+  sol_parametro: { min: 50,   max: 120,  label: 'T° Solución' },
+  vac_parametro: { min: -0.8, max: -0.5, label: 'Vacío (BAR)' }
 };
+
+// Campos críticos para la barra de progreso
+const CRITICAL_FIELDS = [
+  'fecha', 'turno', 'operario',
+  'carga_ph', 'carga_humedad',
+  'n_tanque_reactor',
+  'lote_producto'
+];
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('registroForm');
@@ -25,17 +32,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadDraft();
   setupValidation();
-  setupQuickStatusButtons();
+  setupNowButtons();
+  setupEnterNavigation();
+  updateProgress();
 
-  // Auto-save (debounced)
+  // Auto-save + progress
   let saveTimer;
   form.addEventListener('input', (e) => {
     validateField(e.target);
+    updateProgress();
     clearTimeout(saveTimer);
     saveTimer = setTimeout(() => saveDraft(true), 700);
   });
 
-  form.addEventListener('change', (e) => validateField(e.target));
+  form.addEventListener('change', (e) => {
+    validateField(e.target);
+    updateProgress();
+  });
 
   document.getElementById('btnSave').addEventListener('click', () => saveDraft(false));
   document.getElementById('btnClear').addEventListener('click', clearForm);
@@ -48,6 +61,68 @@ document.addEventListener('DOMContentLoaded', () => {
   const fechaInput = document.getElementById('fecha');
   if (fechaInput && !fechaInput.value) {
     fechaInput.value = new Date().toISOString().slice(0, 10);
+  }
+
+  // ========== BOTONES "AHORA" PARA CAMPOS DE HORA ==========
+  function setupNowButtons() {
+    document.querySelectorAll('input[type="time"]').forEach(input => {
+      // Evitar duplicar el botón
+      if (input.parentElement.querySelector('.btn-now')) return;
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn-now';
+      btn.textContent = 'Ahora';
+      btn.title = 'Poner la hora actual';
+      btn.addEventListener('click', () => {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mm = String(now.getMinutes()).padStart(2, '0');
+        input.value = `${hh}:${mm}`;
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.focus();
+      });
+
+      // Envolver input + botón
+      const wrap = document.createElement('div');
+      wrap.className = 'time-wrap';
+      input.parentNode.insertBefore(wrap, input);
+      wrap.appendChild(input);
+      wrap.appendChild(btn);
+    });
+  }
+
+  // ========== NAVEGACIÓN CON ENTER ==========
+  function setupEnterNavigation() {
+    const fields = Array.from(form.querySelectorAll('input, select'));
+    fields.forEach((el, idx) => {
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const next = fields[idx + 1];
+          if (next) next.focus();
+        }
+      });
+    });
+  }
+
+  // ========== BARRA DE PROGRESO ==========
+  function updateProgress() {
+    const bar = document.getElementById('progressBar');
+    const label = document.getElementById('progressLabel');
+    if (!bar || !label) return;
+
+    let filled = 0;
+    CRITICAL_FIELDS.forEach(name => {
+      const el = form.querySelector(`[name="${name}"]`);
+      if (el && el.value && el.value.trim() !== '') filled++;
+    });
+
+    const pct = Math.round((filled / CRITICAL_FIELDS.length) * 100);
+    bar.style.width = pct + '%';
+    label.textContent = `${filled}/${CRITICAL_FIELDS.length} datos clave`;
+
+    bar.classList.toggle('complete', pct === 100);
   }
 
   // ========== VALIDACIÓN EN TIEMPO REAL ==========
@@ -76,36 +151,9 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Para vacío los valores son negativos
     const inRange = val >= range.min && val <= range.max;
     el.classList.toggle('ok', inRange);
     el.classList.toggle('out', !inRange);
-  }
-
-  // ========== BOTONES RÁPIDOS CONFORME / NO CONFORME ==========
-  function setupQuickStatusButtons() {
-    document.querySelectorAll('.quick-status').forEach(group => {
-      const targetName = group.dataset.target;
-      const input = form.querySelector(`[name="${targetName}"]`);
-      if (!input) return;
-
-      group.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const value = btn.dataset.value;
-          input.value = value;
-          group.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          // Disparar input para auto-save
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-        });
-      });
-
-      // Restaurar estado visual si ya hay valor
-      if (input.value) {
-        const activeBtn = group.querySelector(`button[data-value="${input.value}"]`);
-        if (activeBtn) activeBtn.classList.add('active');
-      }
-    });
   }
 
   // ========== GUARDAR / CARGAR / LIMPIAR ==========
@@ -134,9 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el.type === 'checkbox') el.checked = !!data[key];
         else el.value = data[key];
       });
-      // Re-validar y restaurar botones rápidos
       setupValidation();
-      setupQuickStatusButtons();
+      updateProgress();
       showStatus('Borrador restaurado', 'ok', 2200);
     } catch (e) {
       console.warn('No se pudo cargar el borrador', e);
@@ -148,9 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
     form.reset();
     localStorage.removeItem(STORAGE_KEY);
     form.querySelectorAll('input').forEach(el => el.classList.remove('ok', 'out'));
-    document.querySelectorAll('.quick-status button').forEach(b => b.classList.remove('active'));
     const fechaInput = document.getElementById('fecha');
     if (fechaInput) fechaInput.value = new Date().toISOString().slice(0, 10);
+    updateProgress();
     showStatus('Formulario limpio');
   }
 
