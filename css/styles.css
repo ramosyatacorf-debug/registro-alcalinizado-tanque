@@ -89,6 +89,7 @@ html, body {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .btn {
@@ -96,7 +97,7 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 44px;          /* touch target */
+  min-height: 44px;
   min-width: 110px;
   padding: 10px 20px;
   border: none;
@@ -129,6 +130,35 @@ html, body {
   border: 2px solid rgba(255,255,255,0.7);
 }
 .btn-outline:hover { background: rgba(255,255,255,0.15); }
+
+/* Progress indicator in action bar */
+.progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 140px;
+}
+.progress-wrap span {
+  font-size: 0.7rem;
+  opacity: 0.9;
+  text-align: right;
+}
+.progress-track {
+  height: 6px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #69f0ae;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.progress-fill.complete {
+  background: #00e676;
+}
 
 /* Status toast */
 #status {
@@ -371,6 +401,38 @@ table.data .label-cell {
   font-size: 0.82rem;
 }
 
+/* Time field + "Ahora" button */
+.time-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+.time-wrap input[type="time"] {
+  flex: 1;
+  min-width: 0;
+}
+.btn-now {
+  flex-shrink: 0;
+  min-height: 32px;
+  padding: 4px 8px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 4px;
+  background: #e3f2fd;
+  color: #0d47a1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s;
+}
+.btn-now:hover {
+  background: #bbdefb;
+}
+.btn-now:active {
+  background: #90caf9;
+}
+
 /* Validation states for critical fields */
 input.ok {
   background: #e8f5e9 !important;
@@ -413,34 +475,6 @@ input.out {
   font-weight: 700;
 }
 
-/* Quick Conform / No Conform buttons */
-.quick-status {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-}
-.quick-status button {
-  min-width: 36px;
-  min-height: 32px;
-  border: 2px solid #bdbdbd;
-  border-radius: 6px;
-  background: #fff;
-  font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.12s;
-}
-.quick-status button.ok-btn.active {
-  background: #2e7d32;
-  color: #fff;
-  border-color: #2e7d32;
-}
-.quick-status button.no-btn.active {
-  background: #c62828;
-  color: #fff;
-  border-color: #c62828;
-}
-
 /* Signature area */
 .firmas {
   display: flex;
@@ -473,7 +507,7 @@ input.out {
 @media print {
   body { background: #fff; }
   .app { box-shadow: none; max-width: none; }
-  .action-bar, #status { display: none !important; }
+  .action-bar, #status, .btn-now, .progress-wrap { display: none !important; }
   .form-wrapper { padding: 3mm; }
   .section {
     box-shadow: none;
@@ -505,7 +539,7 @@ input.out {
     background: transparent !important;
     box-shadow: none !important;
   }
-  .quick-status { display: none; }
+  .time-wrap { display: block; }
   @page {
     size: A4 landscape;
     margin: 5mm;
